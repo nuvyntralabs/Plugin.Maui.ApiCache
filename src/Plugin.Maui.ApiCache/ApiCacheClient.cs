@@ -305,16 +305,19 @@ public sealed class ApiCacheClient : IApiCache
         }
 
         var lazy = _inflight.GetOrAdd(key, _ => new Lazy<Task<CacheRecord>>(
-            () => SendAsync(path, key, cached, request, settings, policy, cancellationToken),
+            () => SendAsync(path, key, cached, request, settings, policy, CancellationToken.None),
             LazyThreadSafetyMode.ExecutionAndPublication));
 
         try
         {
-            return await lazy.Value.ConfigureAwait(false);
+            return await lazy.Value.WaitAsync(cancellationToken).ConfigureAwait(false);
         }
         finally
         {
-            _inflight.TryRemove(key, out _);
+            if (lazy.Value.IsCompleted)
+            {
+                _inflight.TryRemove(key, out _);
+            }
         }
     }
 
