@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Plugin.Maui.ApiCache.Sample.MainPage"
+             Title="API Cache">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="24" Spacing="12">
+            <Label Text="Plugin.Maui.ApiCache" FontSize="22" FontAttributes="Bold" />
+            <Label Text="Try each policy. CacheFirst should skip the network on a fresh hit. Toggle offline to force stale fallback."
+                   TextColor="Gray" />
+
+            <Button Text="CacheFirst" Clicked="OnCacheFirstClicked" />
+            <Button Text="NetworkFirst" Clicked="OnNetworkFirstClicked" />
+            <Button Text="StaleWhileRevalidate" Clicked="OnSwrClicked" />
+            <Button Text="NetworkOnly" Clicked="OnNetworkOnlyClicked" />
+            <Button Text="CacheOnly" Clicked="OnCacheOnlyClicked" />
+            <Button x:Name="OfflineToggleBtn" Text="Simulate offline: OFF" Clicked="OnToggleOfflineClicked" />
+            <Button Text="Invalidate /customers" Clicked="OnInvalidateClicked" />
+            <Button Text="Bump origin generation" Clicked="OnBumpClicked" />
+
+            <Label x:Name="StatusLabel" Text="Ready." FontSize="13" LineBreakMode="WordWrap" />
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

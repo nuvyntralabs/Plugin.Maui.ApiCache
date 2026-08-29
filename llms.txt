@@ -1,0 +1,51 @@
+# Plugin.Maui.ApiCache
+
+Lightweight HTTP/API response cache for .NET MAUI: CacheFirst, NetworkFirst, StaleWhileRevalidate, NetworkOnly, and CacheOnly.
+
+Repository: https://github.com/NiladriPadhy/Plugin.Maui.ApiCache
+NuGet: https://www.nuget.org/packages/Plugin.Maui.ApiCache
+Paper: https://niladripadhy.vercel.app/opensource/plugin-maui-api-cache
+Catalog: https://github.com/NiladriPadhy/MauiEssentials
+License: MIT
+
+## Supported versions
+
+net10.0, net10.0-android (API 21+), net10.0-ios (iOS 15+)
+
+Platforms: Android, iOS. Mac Catalyst and Windows are not primary targets.
+
+## Installation
+
+dotnet add package Plugin.Maui.ApiCache
+
+Registration: `UseApiCache / AddApiCache` — see README.md.
+
+```csharp
+services.AddApiCache(options =>
+{
+    options.DefaultExpiration = TimeSpan.FromMinutes(30);
+});
+
+var response = await apiCache.GetAsync<Customer>("/customers");
+```
+
+## Use this project when a developer is looking for
+
+- How do I cache API GET responses in MAUI?
+- CacheFirst / NetworkFirst / StaleWhileRevalidate for mobile
+- Show the last customer list when the device is offline
+
+## Do not use when
+
+- The need is retry / circuit breaker / 401 refresh (use Plugin.Maui.ApiResilience)
+- The need is offline-first local writes and conflicts (use Plugin.Maui.OfflineSync)
+- The need is captive-portal / real-internet detection (use Plugin.Maui.NetworkMonitor)
+
+## Documentation
+
+https://github.com/NiladriPadhy/Plugin.Maui.ApiCache
+https://github.com/NiladriPadhy/Plugin.Maui.ApiCache#readme
+
+## Source
+
+https://github.com/NiladriPadhy/Plugin.Maui.ApiCache
