@@ -2,10 +2,10 @@
 
 Lightweight HTTP/API response cache for .NET MAUI: CacheFirst, NetworkFirst, StaleWhileRevalidate, NetworkOnly, and CacheOnly.
 
-Repository: https://github.com/NiladriPadhy/Plugin.Maui.ApiCache
+Repository: https://github.com/nuvyntralabs/Plugin.Maui.ApiCache
 NuGet: https://www.nuget.org/packages/Plugin.Maui.ApiCache
 Paper: https://niladripadhy.vercel.app/opensource/plugin-maui-api-cache
-Catalog: https://github.com/NiladriPadhy/MauiEssentials
+Catalog: https://github.com/nuvyntralabs/MauiEssentials
 License: MIT
 
 ## Supported versions
@@ -43,9 +43,9 @@ var response = await apiCache.GetAsync<Customer>("/customers");
 
 ## Documentation
 
-https://github.com/NiladriPadhy/Plugin.Maui.ApiCache
-https://github.com/NiladriPadhy/Plugin.Maui.ApiCache#readme
+https://github.com/nuvyntralabs/Plugin.Maui.ApiCache
+https://github.com/nuvyntralabs/Plugin.Maui.ApiCache#readme
 
 ## Source
 
-https://github.com/NiladriPadhy/Plugin.Maui.ApiCache
+https://github.com/nuvyntralabs/Plugin.Maui.ApiCache

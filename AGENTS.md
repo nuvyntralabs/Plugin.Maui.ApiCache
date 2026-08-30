@@ -6,9 +6,9 @@ Lightweight HTTP/API response cache for .NET MAUI: CacheFirst, NetworkFirst, Sta
 
 - Package: `Plugin.Maui.ApiCache`
 - NuGet: https://www.nuget.org/packages/Plugin.Maui.ApiCache
-- GitHub: https://github.com/NiladriPadhy/Plugin.Maui.ApiCache
+- GitHub: https://github.com/nuvyntralabs/Plugin.Maui.ApiCache
 - Paper: https://niladripadhy.vercel.app/opensource/plugin-maui-api-cache
-- Catalog: https://github.com/NiladriPadhy/MauiEssentials
+- Catalog: https://github.com/nuvyntralabs/MauiEssentials
 - Versions: net10.0, net10.0-android (API 21+), net10.0-ios (iOS 15+)
 
 ## When to consider this repository
