@@ -34,10 +34,34 @@ public partial class MainPage : ContentPage
         StatusLabel.Text = _network.IsConnected ? "Online." : "Offline. CacheFirst / NetworkFirst will serve stale.";
     }
 
+    private async void OnSetClicked(object? sender, EventArgs e)
+    {
+        await _cache.SetAsync("/customers/1", new Customer { Id = 1, Name = "Grace Hopper", City = "Arlington" });
+        StatusLabel.Text = "Warmed /customers/1 with SetAsync (Grace Hopper). CacheOnly will read it without a fetch.";
+    }
+
+    private async void OnExistsClicked(object? sender, EventArgs e)
+    {
+        var exists = await _cache.ExistsAsync("/customers/1");
+        StatusLabel.Text = $"Exists /customers/1: {exists}. Origin fetches: {_origin.FetchCount}.";
+    }
+
+    private async void OnInvalidateKeyClicked(object? sender, EventArgs e)
+    {
+        var removed = await _cache.InvalidateAsync("/customers/1");
+        StatusLabel.Text = $"Invalidate /customers/1: {(removed ? "removed" : "missing")}. Origin fetches: {_origin.FetchCount}.";
+    }
+
     private async void OnInvalidateClicked(object? sender, EventArgs e)
     {
         var removed = await _cache.InvalidateByPrefixAsync("/customers");
         StatusLabel.Text = $"Invalidated {removed} customer key(s). Origin fetches: {_origin.FetchCount}.";
+    }
+
+    private async void OnClearClicked(object? sender, EventArgs e)
+    {
+        await _cache.ClearAsync();
+        StatusLabel.Text = $"Cleared cache. Origin fetches: {_origin.FetchCount}.";
     }
 
     private void OnBumpClicked(object? sender, EventArgs e)

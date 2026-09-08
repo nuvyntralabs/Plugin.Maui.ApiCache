@@ -16,7 +16,11 @@
             <Button Text="NetworkOnly" Clicked="OnNetworkOnlyClicked" />
             <Button Text="CacheOnly" Clicked="OnCacheOnlyClicked" />
             <Button x:Name="OfflineToggleBtn" Text="Simulate offline: OFF" Clicked="OnToggleOfflineClicked" />
+            <Button Text="Set (warm cache)" Clicked="OnSetClicked" />
+            <Button Text="Exists /customers/1" Clicked="OnExistsClicked" />
+            <Button Text="Invalidate /customers/1" Clicked="OnInvalidateKeyClicked" />
             <Button Text="Invalidate /customers" Clicked="OnInvalidateClicked" />
+            <Button Text="Clear cache" Clicked="OnClearClicked" />
             <Button Text="Bump origin generation" Clicked="OnBumpClicked" />
 
             <Label x:Name="StatusLabel" Text="Ready." FontSize="13" LineBreakMode="WordWrap" />

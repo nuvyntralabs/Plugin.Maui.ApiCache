@@ -149,6 +149,83 @@ public sealed class PolicyTests
         Assert.Equal(clock.UtcNow + TimeSpan.FromMinutes(30), result.ExpiresAt);
     }
 
+    [Fact]
+    public async Task GetAsync_without_policy_uses_default_CacheFirst()
+    {
+        var (cache, http, _, _, _) = CacheHarness.Create();
+
+        var first = await cache.GetAsync<Customer>("/customers/1");
+        var second = await cache.GetAsync<Customer>("/customers/1");
+
+        Assert.Equal("Ada", first?.Name);
+        Assert.Equal("Ada", second?.Name);
+        Assert.Equal(1, http.SendCount);
+    }
+
+    [Fact]
+    public async Task ETag_304_refreshes_expiry_without_rewriting_body()
+    {
+        var calls = 0;
+        var sawIfNoneMatch = false;
+        var (cache, _, clock, _, _) = CacheHarness.Create(respond: request =>
+        {
+            calls++;
+            if (request.Headers.IfNoneMatch.Count > 0)
+            {
+                sawIfNoneMatch = true;
+                return CacheHarness.Json("ignored", HttpStatusCode.NotModified, "\"v1\"");
+            }
+
+            return CacheHarness.Json("{\"id\":1,\"name\":\"Ada\"}", etag: "\"v1\"");
+        });
+
+        var first = await cache.GetResultAsync<Customer>("/customers/1", new CacheRequestOptions
+        {
+            Policy = CachePolicy.NetworkOnly
+        });
+        clock.Advance(TimeSpan.FromMinutes(10));
+
+        var second = await cache.GetResultAsync<Customer>("/customers/1", new CacheRequestOptions
+        {
+            Policy = CachePolicy.NetworkFirst
+        });
+
+        Assert.Equal("Ada", first.Value?.Name);
+        Assert.Equal("Ada", second.Value?.Name);
+        Assert.Equal(2, calls);
+        Assert.True(sawIfNoneMatch);
+        Assert.Equal(clock.UtcNow, second.CachedAt);
+        Assert.True(second.ExpiresAt > first.ExpiresAt);
+    }
+
+    [Fact]
+    public async Task CacheControl_max_age_overrides_default_expiration()
+    {
+        var (cache, _, clock, _, _) = CacheHarness.Create(respond: _ =>
+        {
+            var response = CacheHarness.Json("{\"id\":1,\"name\":\"Ada\"}");
+            response.Headers.CacheControl = new System.Net.Http.Headers.CacheControlHeaderValue
+            {
+                MaxAge = TimeSpan.FromMinutes(5)
+            };
+            return response;
+        });
+
+        var result = await cache.GetResultAsync<Customer>("/customers/1");
+
+        Assert.Equal(clock.UtcNow + TimeSpan.FromMinutes(5), result.ExpiresAt);
+    }
+
+    [Fact]
+    public async Task NetworkOnly_throws_when_offline()
+    {
+        var (cache, _, _, network, _) = CacheHarness.Create();
+        network.IsConnected = false;
+
+        await Assert.ThrowsAsync<CacheNetworkException>(
+            () => cache.GetAsync<Customer>("/customers/1", CachePolicy.NetworkOnly));
+    }
+
     private static async Task WaitForAsync(Func<bool> condition)
     {
         for (var i = 0; i < 50; i++)

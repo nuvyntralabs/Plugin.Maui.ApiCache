@@ -33,7 +33,13 @@ public static class ServiceCollectionExtensions
                     sp.GetService<ILogger<FileCacheStore>>())
                 : new MemoryCacheStore(options, sp.GetRequiredService<ISystemClock>());
         });
-        services.TryAddSingleton<IApiCache, ApiCacheClient>();
+        services.TryAddSingleton<IApiCache>(sp => new ApiCacheClient(
+            sp.GetRequiredService<ICacheStore>(),
+            sp.GetRequiredService<IOptionsMonitor<ApiCacheOptions>>(),
+            sp.GetRequiredService<INetworkStatus>(),
+            sp.GetRequiredService<ISystemClock>(),
+            sp.GetService<IHttpClientFactory>(),
+            sp.GetService<ILogger<ApiCacheClient>>()));
 
         return services;
     }

@@ -67,4 +67,27 @@ public sealed class StoreTests
 
         Assert.Equal("/customers|Accept-Language=fr-FR", key);
     }
+
+    [Fact]
+    public async Task Factory_creates_in_memory_cache_without_host()
+    {
+        var handler = new FakeHttpHandler(_ => CacheHarness.Json("{\"id\":1,\"name\":\"Ada\"}"));
+        using var client = new HttpClient(handler) { BaseAddress = new Uri("https://api.example.com/") };
+
+        var cache = ApiCacheFactory.Create(client, options =>
+        {
+            options.PersistToDisk = false;
+            options.DefaultExpiration = TimeSpan.FromMinutes(10);
+            options.DefaultPolicy = CachePolicy.CacheFirst;
+            options.IsOnlineAsync = _ => ValueTask.FromResult(true);
+        });
+
+        var first = await cache.GetAsync<Customer>("/customers/1");
+        var second = await cache.GetAsync<Customer>("/customers/1");
+
+        Assert.Equal("Ada", first?.Name);
+        Assert.Equal("Ada", second?.Name);
+        Assert.Equal(1, handler.SendCount);
+        Assert.True(await cache.ExistsAsync("/customers/1"));
+    }
 }

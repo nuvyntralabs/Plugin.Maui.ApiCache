@@ -31,8 +31,8 @@
     <PackageProjectUrl>https://nuvyntralabs.github.io/packages/plugin-maui-api-cache/</PackageProjectUrl>
     <RepositoryUrl>https://github.com/nuvyntralabs/Plugin.Maui.ApiCache</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <Version>1.0.4</Version>
-    <PackageReleaseNotes>Add Mac Catalyst and Windows TFMs for the shared (non-native) implementation.</PackageReleaseNotes>
+    <Version>1.0.5</Version>
+    <PackageReleaseNotes>Fix DI constructor ambiguity when HttpClient is registered. Tests and sample cover factory, ETag/304, max-age, Set/Exists/Clear.</PackageReleaseNotes>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>

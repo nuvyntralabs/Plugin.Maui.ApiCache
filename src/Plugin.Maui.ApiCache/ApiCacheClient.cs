@@ -32,7 +32,7 @@ public sealed class ApiCacheClient : IApiCache
     /// <summary>
     /// Creates the cache client with an explicit <see cref="HttpClient"/> (tests / no host).
     /// </summary>
-    public ApiCacheClient(
+    internal ApiCacheClient(
         ICacheStore store,
         IOptionsMonitor<ApiCacheOptions> options,
         INetworkStatus network,

@@ -200,7 +200,7 @@ The package targets `net10.0`, `net10.0-android`, `net10.0-ios`, `net10.0-maccat
 dotnet pack src/Plugin.Maui.ApiCache/Plugin.Maui.ApiCache.csproj -c Release -o artifacts
 ```
 
-The `.nupkg` is written to `artifacts/Plugin.Maui.ApiCache.1.0.0.nupkg`.
+The `.nupkg` is written to `artifacts/Plugin.Maui.ApiCache.1.0.5.nupkg`.
 
 ## License
 
